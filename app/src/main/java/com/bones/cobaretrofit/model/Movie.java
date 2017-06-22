@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public class Movie {
+    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -39,10 +40,12 @@ public class Movie {
     private Boolean video;
     @SerializedName("vote_average")
     private Double voteAverage;
+    @SerializedName("tagline")
+    private String tagline;
 
     public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
                  String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
-                 Integer voteCount, Boolean video, Double voteAverage){
+                 Integer voteCount, Boolean video, Double voteAverage,String tagline){
         this.posterPath = posterPath;
         this.adult = adult;
         this.overview = overview;
@@ -55,12 +58,13 @@ public class Movie {
         this.backdropPath = backdropPath;
         this.popularity = popularity;
         this.voteCount = voteCount;
-        this.video = video;
-        this.voteAverage = voteAverage;
+        this.setVideo(video);
+        this.setVoteAverage(voteAverage);
+        this.tagline = tagline;
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return TMDB_IMAGE_PATH+posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -132,7 +136,7 @@ public class Movie {
     }
 
     public String getBackdropPath() {
-        return backdropPath;
+        return TMDB_IMAGE_PATH+backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
@@ -153,5 +157,29 @@ public class Movie {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public Boolean getVideo() {
+        return video;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }

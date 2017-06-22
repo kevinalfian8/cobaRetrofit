@@ -1,15 +1,19 @@
 package com.bones.cobaretrofit.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bones.cobaretrofit.R;
 import com.bones.cobaretrofit.adapter.MovieAdapter;
+import com.bones.cobaretrofit.listener.ClickInterface;
+import com.bones.cobaretrofit.listener.RecyclerTouchListener;
 import com.bones.cobaretrofit.model.Movie;
 import com.bones.cobaretrofit.model.MovieResponse;
 import com.bones.cobaretrofit.rest.ApiClient;
@@ -24,11 +28,20 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String API_KEY = "d43d08456676c6c1cacf66a3793741cb";
+    public static final String API_KEY = "d43d08456676c6c1cacf66a3793741cb";
+    List<Movie> movies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Popular Movies");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if(API_KEY.isEmpty()){
             Toast.makeText(getApplicationContext(), "Please obtain your API key", Toast.LENGTH_LONG).show();
@@ -36,15 +49,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movies_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<MovieResponse> call = apiService.getTopRatedMovies(API_KEY);
+        Call<MovieResponse> call = apiService.getPopularMovies(API_KEY);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
+                movies = response.body().getResults();
 
                 recyclerView.setAdapter(new MovieAdapter(movies,MainActivity.this));
                 Log.d(TAG,"Number of movies received: "+ movies.size());
@@ -56,5 +69,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickInterface() {
+            @Override
+            public void onClick(View view, int position) {
+                int id = movies.get(position).getId();
+                Intent i = new Intent(MainActivity.this,DetailActivity.class);
+                i.putExtra("id",id);
+                startActivity(i);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
     }
+
+
 }

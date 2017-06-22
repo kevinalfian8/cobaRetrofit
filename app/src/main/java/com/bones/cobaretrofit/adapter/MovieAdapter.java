@@ -1,15 +1,20 @@
 package com.bones.cobaretrofit.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bones.cobaretrofit.R;
+import com.bones.cobaretrofit.activity.DetailActivity;
 import com.bones.cobaretrofit.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,25 +25,25 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private List<Movie> movies;
     private int rowLayout;
-    private Context context;
+    private static Context context;
+    private static int id;
 
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout moviesLayout;
+
         TextView movieTitle;
-        TextView data;
-        TextView movieDescription;
-        TextView rating;
+        ImageView moviePoster;
 
 
         public MovieViewHolder(View v) {
             super(v);
-            moviesLayout = (LinearLayout) v.findViewById(R.id.movies_layout);
-            movieTitle = (TextView) v.findViewById(R.id.title);
-            data = (TextView) v.findViewById(R.id.subtitle);
-            movieDescription = (TextView) v.findViewById(R.id.description);
-            rating = (TextView) v.findViewById(R.id.rating);
+            movieTitle = (TextView) v.findViewById(R.id.movieTitle);
+            moviePoster = (ImageView) v.findViewById(R.id.imagePoster);
+
+
         }
+
+
     }
 
     public MovieAdapter(List<Movie> movies,  Context context) {
@@ -62,14 +67,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, final int position) {
+
+        id = movies.get(position).getId();
         holder.movieTitle.setText(movies.get(position).getTitle());
-        holder.data.setText(movies.get(position).getReleaseDate());
-        holder.movieDescription.setText(movies.get(position).getOverview());
-        holder.rating.setText(movies.get(position).getVoteCount().toString());
+        Picasso.with(context).load(movies.get(position).getPosterPath()).placeholder(R.color.colorPrimary).into(holder.moviePoster);
     }
 
     @Override
     public int getItemCount() {
         return movies.size();
     }
+
+
+
 }
