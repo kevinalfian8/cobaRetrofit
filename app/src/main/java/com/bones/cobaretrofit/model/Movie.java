@@ -20,8 +20,8 @@ public class Movie {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("genre_ids")
-    private List<Integer> genreIds = new ArrayList<Integer>();
+    @SerializedName("genres")
+    private List<Genres> genres = new ArrayList<>();
     @SerializedName("id")
     private Integer id;
     @SerializedName("original_title")
@@ -43,14 +43,14 @@ public class Movie {
     @SerializedName("tagline")
     private String tagline;
 
-    public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
+    public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Genres> genreIds, Integer id,
                  String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
                  Integer voteCount, Boolean video, Double voteAverage,String tagline){
         this.posterPath = posterPath;
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.genreIds = genreIds;
+        this.genres = genreIds;
         this.id = id;
         this.originalTitle = originalTitle;
         this.originalLanguage = originalLanguage;
@@ -95,12 +95,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public List<Integer> getGenreIds() {
-        return genreIds;
+    public List<Genres> getGenres() {
+        return genres;
     }
 
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
+    public void setGenres(List<Genres> genreIds) {
+        this.genres = genreIds;
     }
 
     public Integer getId() {

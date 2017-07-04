@@ -55,7 +55,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -126,7 +126,34 @@
                     android:layout_below="@id/overview"
                     android:id="@+id/movieReleaseDate"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Genres : "
+                    android:layout_below="@id/movieReleaseDate"
+                    android:textStyle="bold"
+                    android:id="@+id/txtgenres"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtgenres"
+                    android:layout_below="@id/movieReleaseDate"
+                    android:id="@+id/movieGenres"/>
+
+
             </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cast"
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/rv_cast"
+                android:scrollbars="horizontal"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
